@@ -1,5 +1,5 @@
 // resolvers.js
-const { User } = require('./models'); // Adjust the path based on your project structure
+const { User } = require('../models'); // Adjust the path based on your project structure
 
 const resolvers = {
   Query: {
