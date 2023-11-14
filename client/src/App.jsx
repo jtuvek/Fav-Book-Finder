@@ -10,7 +10,7 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 
 const client = new ApolloClient({
-  uri: '/graphql', // Update with your GraphQL server endpoint
+  uri: '/Schemas', // Update with your GraphQL server endpoint
   cache: new InMemoryCache(),
 });
 
