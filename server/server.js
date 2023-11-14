@@ -1,7 +1,10 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-const db = require('./config/connection');
-const routes = require('./routes');
+const mongoose = require('mongoose');
+const { authMiddleware } = require('./path-to-your-auth.js'); // Adjust the path
+const typeDefs = require('./path-to-your-typeDefs');
+const resolvers = require('./path-to-your-resolvers');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,13 +12,25 @@ const PORT = process.env.PORT || 3001;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// if we're in production, serve client/build as static assets
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware,
+});
+
+server.applyMiddleware({ app });
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.use(routes);
+mongoose.connect(
+  process.env.MONGODB_URI || 'mongodb://localhost/Fav-Book-Finder',
+  {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
-db.once('open', () => {
-  app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
-});
+app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
