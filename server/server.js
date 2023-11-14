@@ -2,9 +2,9 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
 const mongoose = require('mongoose');
-const { authMiddleware } = require('./path-to-your-auth.js'); // Adjust the path
-const typeDefs = require('./path-to-your-typeDefs');
-const resolvers = require('./path-to-your-resolvers');
+const { authMiddleware } = require('./utils/auth.js'); // Adjust the path
+const typeDefs = require('./graphql/typeDefs');
+const resolvers = require('./graphql/resolvers');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
